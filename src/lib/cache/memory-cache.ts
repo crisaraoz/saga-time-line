@@ -10,7 +10,7 @@ const DEFAULT_TTL_MS = 1000 * 60 * 60; // 1 hora
  * sobrevive al hot-reload, así que si no se invalida quedan entradas viejas
  * con campos faltantes.
  */
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v13";
 
 const namespaced = (key: string) => `${CACHE_VERSION}:${key}`;
 

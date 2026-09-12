@@ -4,13 +4,12 @@ import { AppHeader } from "@/components/layout/AppHeader";
 import { SearchBar } from "@/components/search/SearchBar";
 import { getHomePosters } from "@/lib/services/home";
 
-/** Atajos a colecciones TMDB conocidas (slug = id de colección). */
+/** Atajos a franquicias curadas. */
 const HOME_SHORTCUTS = [
   { slug: "el-senor-de-los-anillos", name: "La Tierra Media" },
-  { slug: "1241", name: "Harry Potter" },
-  { slug: "10", name: "Star Wars" },
-  { slug: "2344", name: "Matrix" },
-  { slug: "86311", name: "MCU" },
+  { slug: "harry-potter", name: "Harry Potter" },
+  { slug: "star-wars", name: "Star Wars" },
+  { slug: "mcu", name: "MCU" },
 ];
 
 export default async function HomePage() {
@@ -43,14 +42,11 @@ export default async function HomePage() {
         <AppHeader showSearch={false} />
 
         <main className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-4 py-8 sm:px-6">
-          <p className="text-cinema-accent text-center text-[11px] font-semibold uppercase tracking-[0.2em]">
+          <h1 className="text-cinema-accent text-center text-[11px] font-semibold uppercase tracking-[0.2em]">
             Tu compañero de sillón
-          </p>
-          <h1 className="mt-3 text-center text-4xl font-bold tracking-tight sm:text-5xl">
-            Saga<span className="text-cinema-accent">Flow</span>
           </h1>
           <p className="text-cinema-muted mx-auto mt-3 max-w-sm text-center text-sm leading-relaxed sm:text-base">
-            Buscá una saga, ordená qué ver y recordá el contexto sin spoilers.
+            Buscá una saga, ordená qué y como ver.
           </p>
 
           <div className="mt-8 w-full">
@@ -73,6 +69,16 @@ export default async function HomePage() {
                 </li>
               ))}
             </ul>
+
+            <div className="mt-5 text-center">
+              <Link
+                href="/sagas"
+                className="text-cinema-accent hover:text-cinema-text inline-flex items-center gap-1 text-sm font-medium underline-offset-4 transition-colors hover:underline"
+              >
+                Lista de sagas famosas
+                <span aria-hidden>→</span>
+              </Link>
+            </div>
           </section>
         </main>
       </div>
