@@ -1,0 +1,24 @@
+Actúa como un Senior Full-Stack Developer y experto en UI/UX. Vamos a construir una webapp mobile-first llamada "SagaFlow", diseñada para ser el acompañante perfecto de quienes ven sagas, secuelas o franquicias de películas y series.
+
+### 🛠️ Stack Tecnológico
+- Frontend: Next.js, React, TypeScript, Tailwind CSS.
+- Backend: Node.js, Express (o Serverless Functions de Next.js, lo que sea más óptimo), MongoDB.
+- Herramientas de Calidad: ESLint, Jest (para futuros tests).
+- APIs Externas: TMDB API (para metadata, plataformas de streaming y recomendaciones).
+
+### 🎯 Core Features de la Aplicación
+1. Ruta de Visualización (Timeline): Búsqueda de una franquicia (ej. "Evangelion", "El Señor de los Anillos") que genera una línea de tiempo vertical cronológica con checkboxes para marcar lo visto.
+2. LoreCap (Contexto sin Spoilers): Al expandir una película en el timeline, un botón carga 4 viñetas clave de la trama anterior para recordar el contexto. (Se generará vía prompt de IA en el backend y se guardará en MongoDB para servirlo como caché).
+3. Disponibilidad de Streaming: Mostrar en qué plataformas (Netflix, Max, Prime, etc.) está disponible cada título en el país del usuario (usando datos de JustWatch vía TMDB).
+4. Recomendaciones: Al final de la línea de tiempo, un carrusel horizontal con títulos similares basados en género o director.
+
+### 🎨 Reglas de Diseño y UI (Mobile-First)
+- La interfaz debe ser minimalista, limpia y enfocada al uso con una sola mano en el celular (ideal para cuando el usuario está en el sillón).
+- Usa componentes fluidos: tarjetas expandibles, swipe horizontal para recomendaciones y scroll vertical para la línea de tiempo.
+- Paleta de colores oscura o "modo cine" por defecto para no cansar la vista en ambientes de poca luz.
+
+### 🚀 Primera Tarea
+Para empezar, no escribas código funcional todavía. Quiero que me des:
+1. La estructura de carpetas propuesta para este proyecto en Next.js.
+2. Los esquemas (Schemas) de Mongoose recomendados para la base de datos (pensando en Franquicias, Películas, Usuarios y la caché de los LoreCaps).
+3. Los comandos iniciales para inicializar el proyecto con las dependencias clave.
