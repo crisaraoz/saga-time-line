@@ -28,7 +28,7 @@ export default async function FranchisePage({ params }: FranchisePageProps) {
   if (!franchise.value) notFound();
 
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col overflow-x-hidden">
       <AppHeader />
       <FranchiseView
         franchise={franchise.value}

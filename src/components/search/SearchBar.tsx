@@ -174,7 +174,7 @@ export function SearchBar({
           aria-activedescendant={
             activeIndex >= 0 ? `${listId}-option-${activeIndex}` : undefined
           }
-          placeholder="Buscar una saga o franquicia"
+          placeholder="Buscar una saga o película"
           autoComplete="off"
           autoFocus={autoFocus}
           className={cn(

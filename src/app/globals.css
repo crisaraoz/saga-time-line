@@ -18,14 +18,18 @@
 html {
   color-scheme: dark;
   -webkit-tap-highlight-color: transparent;
-  overflow-x: clip;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
   background-color: var(--color-cinema-bg);
   color: var(--color-cinema-text);
-  overflow-x: clip;
+  overflow-x: hidden;
+  width: 100%;
   max-width: 100%;
+  /* Evita smearing de capas compositadas en Safari iOS */
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Oculta el triángulo nativo del <details> usado en las tarjetas expandibles */

@@ -3,7 +3,7 @@ import { SearchBar } from "@/components/search/SearchBar";
 
 export function AppHeader({ showSearch = true }: { showSearch?: boolean }) {
   return (
-    <header className="bg-cinema-bg/85 border-cinema-border sticky top-0 z-20 border-b backdrop-blur">
+    <header className="bg-cinema-bg border-cinema-border sticky top-0 z-20 border-b">
       <div
         className={
           showSearch

@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+  type PointerEvent,
+} from "react";
 import { Poster } from "@/components/ui/Poster";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils/cn";
 import type { Recommendation } from "@/types";
 
-const DRAG_THRESHOLD = 6;
+/** Solo cuenta como arrastre si supera esto; un tap siempre tiembla un poco. */
+const DRAG_THRESHOLD = 12;
 
 export function RecommendationCarousel({ items }: { items: Recommendation[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -17,7 +25,7 @@ export function RecommendationCarousel({ items }: { items: Recommendation[] }) {
     startY: 0,
     startScroll: 0,
     axis: null as null | "x" | "y",
-    moved: false,
+    didDrag: false,
   });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
@@ -58,25 +66,28 @@ export function RecommendationCarousel({ items }: { items: Recommendation[] }) {
   function scrollByCards(direction: -1 | 1) {
     const node = scrollerRef.current;
     if (!node) return;
-    const amount = Math.max(node.clientWidth * 0.75, 160);
+    const card = node.querySelector("a");
+    const gap = 16; // lg:gap-4
+    const amount = card
+      ? card.getBoundingClientRect().width + gap
+      : Math.max(node.clientWidth * 0.75, 160);
     node.scrollBy({ left: direction * amount, behavior: "smooth" });
   }
 
   function onPointerDown(event: PointerEvent<HTMLDivElement>) {
-    // Solo botón primario del mouse; touch y pen siempre.
     if (event.pointerType === "mouse" && event.button !== 0) return;
     const node = scrollerRef.current;
     if (!node || node.scrollWidth <= node.clientWidth) return;
 
+    // No capturamos todavía: un click debe llegar al <Link>.
     dragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
       startScroll: node.scrollLeft,
       axis: null,
-      moved: false,
+      didDrag: false,
     };
-    node.setPointerCapture(event.pointerId);
   }
 
   function onPointerMove(event: PointerEvent<HTMLDivElement>) {
@@ -90,23 +101,22 @@ export function RecommendationCarousel({ items }: { items: Recommendation[] }) {
 
     if (!drag.axis) {
       if (Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) return;
-      // Si el gesto es más vertical, soltamos y dejamos scrollear la página.
+
       drag.axis = Math.abs(dx) >= Math.abs(dy) ? "x" : "y";
       if (drag.axis === "y") {
         drag.pointerId = -1;
-        setDragging(false);
-        if (node.hasPointerCapture(event.pointerId)) {
-          node.releasePointerCapture(event.pointerId);
-        }
         return;
       }
+
+      // Recién acá es un arrastre horizontal real.
+      drag.didDrag = true;
       setDragging(true);
+      node.setPointerCapture(event.pointerId);
     }
 
     if (drag.axis !== "x") return;
 
     event.preventDefault();
-    drag.moved = true;
     node.scrollLeft = drag.startScroll - dx;
   }
 
@@ -117,30 +127,31 @@ export function RecommendationCarousel({ items }: { items: Recommendation[] }) {
     if (node?.hasPointerCapture(event.pointerId)) {
       node.releasePointerCapture(event.pointerId);
     }
-    // moved queda un tick para que el click del Link se cancele.
-    const wasMoved = drag.moved;
+
+    const didDrag = drag.didDrag;
     drag.pointerId = -1;
     drag.axis = null;
     setDragging(false);
-    if (wasMoved) {
+
+    // Mantener didDrag un instante para que el click sintético no navegue.
+    if (didDrag) {
       window.setTimeout(() => {
-        drag.moved = false;
-      }, 0);
+        drag.didDrag = false;
+      }, 50);
     }
   }
 
-  function onCardClick(event: React.MouseEvent<HTMLAnchorElement>) {
-    if (dragRef.current.moved) {
+  function onCardClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (dragRef.current.didDrag) {
       event.preventDefault();
       event.stopPropagation();
-      dragRef.current.moved = false;
     }
   }
 
   if (items.length === 0) return null;
 
   return (
-    <section className="mt-8 max-w-full min-w-0 overflow-x-hidden lg:mt-10">
+    <section className="mt-8 max-w-full min-w-0 lg:mt-10">
       <div className="mb-3 flex items-center justify-between px-4 lg:px-0">
         <h2 className="text-sm font-semibold lg:text-base">Si te gustó, seguí con…</h2>
         <div className="hidden items-center gap-1 sm:flex">
@@ -183,7 +194,6 @@ export function RecommendationCarousel({ items }: { items: Recommendation[] }) {
         onPointerCancel={endDrag}
         className={cn(
           "no-scrollbar flex max-w-full gap-3 overflow-x-auto overscroll-x-contain px-4 pb-2 lg:gap-4 lg:px-0",
-          "touch-pan-y",
           dragging ? "cursor-grabbing select-none" : "cursor-grab",
         )}
       >
@@ -194,13 +204,14 @@ export function RecommendationCarousel({ items }: { items: Recommendation[] }) {
             draggable={false}
             onClick={onCardClick}
             onDragStart={(event) => event.preventDefault()}
-            className="group w-28 shrink-0 lg:w-36"
+            // Mobile: ancho fijo con peek. Desktop: 4 cards llenan el ancho del contenedor.
+            className="group w-28 shrink-0 sm:w-32 lg:w-[calc((100%-3rem)/4)]"
           >
             <Poster
               path={item.posterPath}
               alt={item.title}
               size="w342"
-              sizes="(min-width: 1024px) 144px, 112px"
+              sizes="(min-width: 1024px) 20vw, 128px"
               className="border-cinema-border pointer-events-none w-full rounded-xl border transition-transform group-hover:scale-[1.02]"
             />
             <p className="group-hover:text-cinema-accent mt-2 truncate text-xs font-medium transition-colors lg:text-sm">

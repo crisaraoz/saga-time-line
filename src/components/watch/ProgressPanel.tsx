@@ -1,9 +1,18 @@
 "use client";
 
-import { useWatchProgressContext } from "@/components/watch/WatchProgressProvider";
+import {
+  useWatchProgressContext,
+  type TimelineDensity,
+} from "@/components/watch/WatchProgressProvider";
+import { cn } from "@/lib/utils/cn";
+
+const OPTIONS: { value: TimelineDensity; label: string }[] = [
+  { value: "list", label: "Vista lista" },
+  { value: "compact", label: "Vista compacta" },
+];
 
 export function ProgressPanel({ titleIds }: { titleIds: string[] }) {
-  const { watchedIds, reset } = useWatchProgressContext();
+  const { watchedIds, reset, density, setDensity } = useWatchProgressContext();
 
   const total = titleIds.length;
   const watched = titleIds.filter((id) => watchedIds.has(id)).length;
@@ -35,13 +44,30 @@ export function ProgressPanel({ titleIds }: { titleIds: string[] }) {
         />
       </div>
 
-      <div className="bg-cinema-surface border-cinema-border mt-4 flex min-w-0 gap-1 overflow-hidden rounded-full border p-1 text-xs font-medium">
-        <span className="bg-cinema-accent text-cinema-bg min-w-0 flex-1 truncate rounded-full px-3 py-1.5 text-center">
-          Cronológico
-        </span>
-        <span className="text-cinema-muted min-w-0 flex-1 truncate rounded-full px-3 py-1.5 text-center">
-          Por estreno
-        </span>
+      <div
+        role="group"
+        aria-label="Densidad de la lista"
+        className="bg-cinema-surface border-cinema-border mt-4 grid grid-cols-2 gap-1 rounded-full border p-1 text-xs font-medium"
+      >
+        {OPTIONS.map((option) => {
+          const active = density === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              aria-pressed={active}
+              onClick={() => setDensity(option.value)}
+              className={cn(
+                "rounded-full px-3 py-1.5 text-center transition-colors",
+                active
+                  ? "text-cinema-accent bg-cinema-accent/15"
+                  : "text-cinema-muted hover:text-cinema-text",
+              )}
+            >
+              {option.label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
