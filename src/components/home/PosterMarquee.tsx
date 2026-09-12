@@ -40,7 +40,7 @@ export function PosterMarquee({
           return (
             <div
               key={`${poster.tmdbId}-${index}`}
-              className="border-cinema-border/60 relative aspect-[2/3] w-[72px] shrink-0 overflow-hidden rounded-lg border opacity-55 sm:w-[88px] sm:opacity-60 lg:w-[100px]"
+              className="border-cinema-border/50 relative aspect-[2/3] w-[76px] shrink-0 overflow-hidden rounded-lg border opacity-70 sm:w-[92px] sm:opacity-75 lg:w-[104px]"
             >
               {src && (
                 <Image

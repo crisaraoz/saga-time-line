@@ -31,6 +31,7 @@ export type FranchiseCategory =
   | "fantasia"
   | "aventura"
   | "animacion"
+  | "comedia"
   | "bizarro";
 
 export const FRANCHISE_CATEGORY_LABELS: Record<FranchiseCategory, string> = {
@@ -41,6 +42,7 @@ export const FRANCHISE_CATEGORY_LABELS: Record<FranchiseCategory, string> = {
   fantasia: "Fantasía",
   aventura: "Aventura",
   animacion: "Animación",
+  comedia: "Comedia",
   bizarro: "Bizarro / camp",
 };
 
@@ -84,6 +86,13 @@ const CATEGORY_BY_SLUG: Record<string, FranchiseCategory> = {
   "cabin-fever": "terror",
   joker: "terror",
   constantine: "terror",
+  gremlins: "terror",
+  tremors: "terror",
+  hellboy: "terror",
+  hannibal: "terror",
+  hostel: "terror",
+  "the-crow": "terror",
+  "sin-city": "terror",
 
   // Ciencia ficción
   alien: "ciencia-ficcion",
@@ -103,6 +112,10 @@ const CATEGORY_BY_SLUG: Record<string, FranchiseCategory> = {
   "pacific-rim": "ciencia-ficcion",
   jurassic: "ciencia-ficcion",
   ghostbusters: "ciencia-ficcion",
+  "godzilla-toho": "ciencia-ficcion",
+  evangelion: "ciencia-ficcion",
+  gamera: "ciencia-ficcion",
+  pokemon: "ciencia-ficcion",
 
   // Acción
   "fast-furious": "accion",
@@ -119,6 +132,12 @@ const CATEGORY_BY_SLUG: Record<string, FranchiseCategory> = {
   rambo: "accion",
   oceans: "accion",
   kingsman: "accion",
+  "top-gun": "accion",
+  "ip-man": "accion",
+  "the-raid": "accion",
+  "jack-reacher": "accion",
+  gladiator: "accion",
+  "power-rangers": "accion",
 
   // Superhéroes
   batman: "superheroes",
@@ -128,6 +147,9 @@ const CATEGORY_BY_SLUG: Record<string, FranchiseCategory> = {
   dceu: "superheroes",
   "dcu-superman": "superheroes",
   superman: "superheroes",
+  "fantastic-four": "superheroes",
+  watchmen: "superheroes",
+  "300": "superheroes",
 
   // Fantasía
   "el-senor-de-los-anillos": "fantasia",
@@ -135,6 +157,12 @@ const CATEGORY_BY_SLUG: Record<string, FranchiseCategory> = {
   narnia: "fantasia",
   crepusculo: "fantasia",
   wicked: "fantasia",
+  beetlejuice: "fantasia",
+  "percy-jackson": "fantasia",
+  "cazadores-de-sombras": "fantasia",
+  "familia-addams": "fantasia",
+  after: "fantasia",
+  "cincuenta-sombras": "fantasia",
 
   // Aventura
   "indiana-jones": "aventura",
@@ -144,12 +172,70 @@ const CATEGORY_BY_SLUG: Record<string, FranchiseCategory> = {
   "karate-kid": "aventura",
   "king-kong": "aventura",
   "sherlock-holmes": "aventura",
+  "solo-en-casa": "aventura",
+  "maze-runner": "aventura",
+  "tortugas-ninja": "aventura",
+  divergente: "aventura",
 
   // Animación
   "como-entrenar-a-tu-dragon": "animacion",
   shrek: "animacion",
   "toy-story": "animacion",
   "ice-age": "animacion",
+  paddington: "animacion",
+  "despicable-me": "animacion",
+  alvin: "animacion",
+  pitufos: "animacion",
+
+  // Comedia
+  hangover: "comedia",
+  "arma-letal": "comedia",
+  "ninos-grandes": "comedia",
+  "dumb-and-dumber": "comedia",
+  "ace-ventura": "comedia",
+  "austin-powers": "comedia",
+  "american-pie": "comedia",
+  ted: "comedia",
+  "meet-the-parents": "comedia",
+  "rush-hour": "comedia",
+  "shanghai-noon": "comedia",
+  "charlies-angels": "comedia",
+  "super-troopers": "comedia",
+  "harold-kumar": "comedia",
+  "jay-silent-bob": "comedia",
+  "beverly-hills-cop": "comedia",
+  "bad-boys": "comedia",
+  "jump-street": "comedia",
+  zoolander: "comedia",
+  anchorman: "comedia",
+  "big-momma": "comedia",
+  "nutty-professor": "comedia",
+  "pink-panther": "comedia",
+  "mr-bean": "comedia",
+  "johnny-english": "comedia",
+  "bridget-jones": "comedia",
+  "sex-and-the-city": "comedia",
+  "pitch-perfect": "comedia",
+  "sister-act": "comedia",
+  "mira-quien-habla": "comedia",
+  "kindergarten-cop": "comedia",
+  "national-lampoon": "comedia",
+  "van-wilder": "comedia",
+  "blues-brothers": "comedia",
+  "coming-to-america": "comedia",
+  "night-at-the-museum": "comedia",
+  "ride-along": "comedia",
+  "horrible-bosses": "comedia",
+  neighbors: "comedia",
+  "paul-blart": "comedia",
+  "daddys-home": "comedia",
+  "bill-and-ted": "comedia",
+  "loca-academia-policia": "comedia",
+  "naked-gun": "comedia",
+  "hot-shots": "comedia",
+  airplane: "comedia",
+  "parodias-2000": "comedia",
+  "scary-movie": "comedia",
 
   // Bizarro / camp
   sharknado: "bizarro",
@@ -167,6 +253,8 @@ const CATEGORY_BY_SLUG: Record<string, FranchiseCategory> = {
   "vengador-toxico": "bizarro",
   "shark-attack": "bizarro",
   "ghost-shark": "bizarro",
+  critters: "bizarro",
+  "human-centipede": "bizarro",
 };
 
 /**
@@ -740,7 +828,7 @@ export const CURATED_FRANCHISES: Record<string, CuratedFranchise> = {
 
   "die-hard": {
     slug: "die-hard",
-    name: "Die Hard (Jungla de cristal)",
+    name: "Die Hard (Duro de Matar)",
     tagline: "Yippee-ki-yay…",
     collectionIds: [1570],
     chronologicalOrder: [562, 1573, 1572, 1571, 47964],
@@ -1199,6 +1287,902 @@ export const CURATED_FRANCHISES: Record<string, CuratedFranchise> = {
     chronologicalOrder: [10528, 58574],
     recommendationSeedId: 10528,
     searchAliases: ["sherlock"],
+  },
+
+  // ——— Top gaps (lote) ———
+
+  "top-gun": {
+    slug: "top-gun",
+    name: "Top Gun",
+    tagline: "Ídolos del aire → Maverick",
+    collectionIds: [531330],
+    excludeMovieIds: [1229934], // Top Gun 3 (planned)
+    chronologicalOrder: [744, 361743],
+    recommendationSeedId: 744,
+    searchAliases: ["maverick", "topgun"],
+  },
+
+  gremlins: {
+    slug: "gremlins",
+    name: "Gremlins",
+    tagline: "No los mojes, no los alimentes de noche",
+    collectionIds: [89151],
+    excludeMovieIds: [1423577], // Gremlins 3 (announced)
+    chronologicalOrder: [927, 928],
+    recommendationSeedId: 927,
+  },
+
+  tremors: {
+    slug: "tremors",
+    name: "Temblores",
+    tagline: "Graboids de Perfección a la isla",
+    collectionIds: [91799],
+    chronologicalOrder: [
+      9362, 11069, 10829, 10891, 339530, 496704, 670266,
+    ],
+    recommendationSeedId: 9362,
+    searchAliases: ["tremors", "graboids"],
+  },
+
+  "scary-movie": {
+    slug: "scary-movie",
+    name: "Scary Movie",
+    tagline: "La parodia que se comió el terror 2000s",
+    collectionIds: [4246],
+    excludeMovieIds: [1273221], // Scary Movie 6 (unreleased)
+    chronologicalOrder: [4247, 4248, 4256, 4257, 4258],
+    recommendationSeedId: 4247,
+  },
+
+  "solo-en-casa": {
+    slug: "solo-en-casa",
+    name: "Solo en casa",
+    tagline: "Kevin + secuelas (incl. TV / Disney+)",
+    collectionIds: [9888],
+    extraMovieIds: [134375, 654974],
+    chronologicalOrder: [771, 772, 9714, 12536, 134375, 654974],
+    recommendationSeedId: 771,
+    searchAliases: ["home alone", "kevin"],
+  },
+
+  "tortugas-ninja": {
+    slug: "tortugas-ninja",
+    name: "Tortugas Ninja",
+    tagline: "Clásicas → CGI 2007 → Bay → Mutant Mayhem",
+    collectionIds: [1582, 401562, 1156855],
+    extraMovieIds: [1273], // TMNT 2007
+    excludeMovieIds: [1156621], // Mutant Mayhem 2 (unreleased)
+    chronologicalOrder: [
+      1498, 1497, 1499, 1273, 98566, 308531, 614930,
+    ],
+    recommendationSeedId: 1498,
+    searchAliases: ["tmnt", "ninja turtles", "teenage mutant"],
+  },
+
+  hellboy: {
+    slug: "hellboy",
+    name: "Hellboy",
+    tagline: "del Toro + animados + reboot",
+    collectionIds: [17235, 123203],
+    extraMovieIds: [456740, 1087822],
+    chronologicalOrder: [
+      1487, 16774, 13204, 154207, 11253, 789978, 456740, 1087822,
+    ],
+    recommendationSeedId: 1487,
+  },
+
+  hannibal: {
+    slug: "hannibal",
+    name: "Hannibal Lecter",
+    tagline: "Origen → Manhunter / Dragón rojo → Silence → Hannibal",
+    collectionIds: [9743],
+    extraMovieIds: [11454, 1248],
+    chronologicalOrder: [
+      1248, // Rising
+      11454, // Manhunter
+      274, // Silence
+      9740, // Hannibal
+      9533, // Red Dragon (remake de Manhunter)
+    ],
+    recommendationSeedId: 274,
+    searchAliases: ["lecter", "silence of the lambs", "silencio de los corderos"],
+  },
+
+  "maze-runner": {
+    slug: "maze-runner",
+    name: "Maze Runner",
+    tagline: "Trilogía YA completa",
+    collectionIds: [295130],
+    chronologicalOrder: [198663, 294254, 336843],
+    recommendationSeedId: 198663,
+    searchAliases: ["maze runner"],
+  },
+
+  paddington: {
+    slug: "paddington",
+    name: "Paddington",
+    tagline: "El oso peruano en Londres (y la selva)",
+    collectionIds: [488924],
+    excludeMovieIds: [1670528], // Paddington 4 (untitled)
+    chronologicalOrder: [116149, 346648, 516729],
+    recommendationSeedId: 116149,
+  },
+
+  "godzilla-toho": {
+    slug: "godzilla-toho",
+    name: "Godzilla (Toho)",
+    tagline: "Showa → Heisei → Millennium (sin MonsterVerse)",
+    collectionIds: [374509, 374511, 374512],
+    chronologicalOrder: [
+      // Showa
+      1678, 1679, 1680, 1682, 15766, 19545, 3115, 18627, 3107, 39462, 39464,
+      19336, 39264, 38582, 19333,
+      // Heisei
+      421467, 18289, 36679, 39465, 6593, 39466, 12561,
+      // Millennium
+      10643, 39468, 36243, 12636, 39469, 15767,
+    ],
+    recommendationSeedId: 1678,
+    searchAliases: ["godzilla", "gojira", "toho", "kaiju"],
+  },
+
+  evangelion: {
+    slug: "evangelion",
+    name: "Evangelion",
+    tagline: "Películas clásicas + Rebuild (la serie TV va aparte)",
+    collectionIds: [96850, 210303],
+    excludeMovieIds: [857862, 54270], // cuts / compilaciones duplicadas
+    chronologicalOrder: [
+      21832, 18491, 15137, 22843, 75629, 283566,
+    ],
+    recommendationSeedId: 18491,
+    searchAliases: ["neon genesis", "rebuild of evangelion", "eva"],
+  },
+
+  beetlejuice: {
+    slug: "beetlejuice",
+    name: "Beetlejuice",
+    tagline: "Burton × Keaton",
+    collectionIds: [945475],
+    excludeMovieIds: [1428221], // Beetlejuice 3 (untitled)
+    chronologicalOrder: [4011, 917496],
+    recommendationSeedId: 4011,
+    searchAliases: ["beetlejuice", "bitelchus"],
+  },
+
+  // ——— Lote siguiente (gaps) ———
+
+  divergente: {
+    slug: "divergente",
+    name: "Divergente",
+    tagline: "Trilogía YA (sin Ascendente)",
+    collectionIds: [283579],
+    chronologicalOrder: [157350, 262500, 262504],
+    recommendationSeedId: 157350,
+    searchAliases: ["divergent"],
+  },
+
+  "percy-jackson": {
+    slug: "percy-jackson",
+    name: "Percy Jackson",
+    tagline: "Las dos películas (la serie Disney+ va aparte)",
+    collectionIds: [179919],
+    chronologicalOrder: [32657, 76285],
+    recommendationSeedId: 32657,
+    searchAliases: ["percy", "olimpo"],
+  },
+
+  "cazadores-de-sombras": {
+    slug: "cazadores-de-sombras",
+    name: "Cazadores de sombras",
+    tagline: "Ciudad de Hueso (solo llegó la primera)",
+    collectionIds: [],
+    extraMovieIds: [123553],
+    chronologicalOrder: [123553],
+    recommendationSeedId: 123553,
+    searchAliases: ["mortal instruments", "shadowhunters", "clare"],
+  },
+
+  "cincuenta-sombras": {
+    slug: "cincuenta-sombras",
+    name: "Cincuenta sombras",
+    tagline: "Grey completo",
+    collectionIds: [344830],
+    chronologicalOrder: [216015, 341174, 337167],
+    recommendationSeedId: 216015,
+    searchAliases: ["fifty shades", "grey"],
+  },
+
+  after: {
+    slug: "after",
+    name: "After",
+    tagline: "Hardin & Tessa, las cinco",
+    collectionIds: [702624],
+    chronologicalOrder: [537915, 613504, 744275, 744276, 820525],
+    recommendationSeedId: 537915,
+  },
+
+  "ip-man": {
+    slug: "ip-man",
+    name: "Ip Man",
+    tagline: "Donnie Yen, las cuatro",
+    collectionIds: [70068],
+    chronologicalOrder: [14756, 37472, 365222, 449924],
+    recommendationSeedId: 14756,
+    searchAliases: ["yip man", "wing chun"],
+  },
+
+  "the-raid": {
+    slug: "the-raid",
+    name: "The Raid",
+    tagline: "Redada asesina 1 y 2",
+    collectionIds: [257960],
+    chronologicalOrder: [94329, 180299],
+    recommendationSeedId: 94329,
+    searchAliases: ["redada asesina", "raid"],
+  },
+
+  gamera: {
+    slug: "gamera",
+    name: "Gamera",
+    tagline: "Showa + Heisei (la tortuga kaiju)",
+    collectionIds: [161766, 657313],
+    chronologicalOrder: [
+      21930, 22899, 52728, 34131, 26947, 70327, 70322, 70358, 54433, 59480,
+      60159,
+    ],
+    recommendationSeedId: 54433,
+  },
+
+  "loca-academia-policia": {
+    slug: "loca-academia-policia",
+    name: "Loca academia de policía",
+    tagline: "Las siete (sí, Moscú también)",
+    collectionIds: [9338],
+    chronologicalOrder: [9336, 10157, 12118, 10587, 11825, 11895, 11546],
+    recommendationSeedId: 9336,
+    searchAliases: ["police academy"],
+  },
+
+  "naked-gun": {
+    slug: "naked-gun",
+    name: "La Pistola Desnuda",
+    tagline: "Trilogía clásica + reboot",
+    collectionIds: [37139],
+    chronologicalOrder: [37136, 37137, 36593, 1035259],
+    recommendationSeedId: 37136,
+    searchAliases: ["naked gun", "leslie nielsen"],
+  },
+
+  "hot-shots": {
+    slug: "hot-shots",
+    name: "Hot Shots!",
+    tagline: "Parodia Top Gun (y Parte Dos)",
+    collectionIds: [52988],
+    chronologicalOrder: [9595, 9255],
+    recommendationSeedId: 9595,
+  },
+
+  airplane: {
+    slug: "airplane",
+    name: "Aterriza como puedas",
+    tagline: "Airplane! 1 y 2",
+    collectionIds: [91663],
+    chronologicalOrder: [813, 2665],
+    recommendationSeedId: 813,
+    searchAliases: ["airplane", "aterriza"],
+  },
+
+  // ——— Comedias ———
+
+  hangover: {
+    slug: "hangover",
+    name: "¿Qué pasó ayer?",
+    tagline: "Resacón en Las Vegas → Tailandia → III",
+    collectionIds: [86119],
+    chronologicalOrder: [18785, 45243, 109439],
+    recommendationSeedId: 18785,
+    searchAliases: [
+      "hangover",
+      "resacon",
+      "qué pasó ayer",
+      "que paso ayer",
+    ],
+  },
+
+  "arma-letal": {
+    slug: "arma-letal",
+    name: "Arma letal",
+    tagline: "Riggs & Murtaugh, las cuatro",
+    collectionIds: [945],
+    excludeMovieIds: [1528550], // Lethal Weapon 5
+    chronologicalOrder: [941, 942, 943, 944],
+    recommendationSeedId: 941,
+    searchAliases: ["lethal weapon", "arma mortal", "riggs"],
+  },
+
+  "ninos-grandes": {
+    slug: "ninos-grandes",
+    name: "Niños grandes",
+    tagline: "Son como niños… y la secuela",
+    collectionIds: [180546],
+    excludeMovieIds: [1566991], // Grown Ups 3
+    chronologicalOrder: [38365, 109418],
+    recommendationSeedId: 38365,
+    searchAliases: ["grown ups", "son como niños", "sandler"],
+  },
+
+  "dumb-and-dumber": {
+    slug: "dumb-and-dumber",
+    name: "Dos tontos muy tontos",
+    tagline: "Harry & Lloyd (+ When Harry Met Lloyd)",
+    collectionIds: [96665],
+    chronologicalOrder: [8467, 10152, 100042],
+    recommendationSeedId: 8467,
+    searchAliases: ["dumb and dumber", "tontos"],
+  },
+
+  "ace-ventura": {
+    slug: "ace-ventura",
+    name: "Ace Ventura",
+    tagline: "Un detective diferente (+ Jr.)",
+    collectionIds: [3167],
+    extraMovieIds: [15338],
+    chronologicalOrder: [3049, 9273, 15338],
+    recommendationSeedId: 3049,
+  },
+
+  "austin-powers": {
+    slug: "austin-powers",
+    name: "Austin Powers",
+    tagline: "Yeah, baby!",
+    collectionIds: [1006],
+    chronologicalOrder: [816, 817, 818],
+    recommendationSeedId: 816,
+  },
+
+  "american-pie": {
+    slug: "american-pie",
+    name: "American Pie",
+    tagline: "Teatro + spin-offs",
+    collectionIds: [2806, 298820],
+    chronologicalOrder: [
+      2105, 2770, 8273, 8274, 8275, 8277, 26123, 71552, 660982,
+    ],
+    recommendationSeedId: 2105,
+  },
+
+  ted: {
+    slug: "ted",
+    name: "Ted",
+    tagline: "El oso de MacFarlane",
+    collectionIds: [266672],
+    chronologicalOrder: [72105, 214756],
+    recommendationSeedId: 72105,
+  },
+
+  "meet-the-parents": {
+    slug: "meet-the-parents",
+    name: "Los padres de ella",
+    tagline: "Focker trilogy (+ futura)",
+    collectionIds: [51509],
+    excludeMovieIds: [1400336],
+    chronologicalOrder: [1597, 693, 39451],
+    recommendationSeedId: 1597,
+    searchAliases: ["focker", "meet the parents"],
+  },
+
+  "rush-hour": {
+    slug: "rush-hour",
+    name: "Hora punta",
+    tagline: "Carter & Lee",
+    collectionIds: [90863],
+    excludeMovieIds: [1059776],
+    chronologicalOrder: [2109, 5175, 5174],
+    recommendationSeedId: 2109,
+    searchAliases: ["rush hour", "jackie chan"],
+  },
+
+  "shanghai-noon": {
+    slug: "shanghai-noon",
+    name: "Shanghai Kid",
+    tagline: "Jackie Chan & Owen Wilson",
+    collectionIds: [59567],
+    chronologicalOrder: [8584, 6038],
+    recommendationSeedId: 8584,
+    searchAliases: ["shanghai noon", "shanghai knights"],
+  },
+
+  "charlies-angels": {
+    slug: "charlies-angels",
+    name: "Los ángeles de Charlie",
+    tagline: "2000s + reboot 2019",
+    collectionIds: [86029],
+    extraMovieIds: [458897],
+    chronologicalOrder: [4327, 9471, 458897],
+    recommendationSeedId: 4327,
+    searchAliases: ["charlies angels", "angeles de charlie"],
+  },
+
+  "super-troopers": {
+    slug: "super-troopers",
+    name: "Super maderos",
+    tagline: "Broken Lizard",
+    collectionIds: [449462],
+    excludeMovieIds: [675871],
+    chronologicalOrder: [39939, 50022],
+    recommendationSeedId: 39939,
+    searchAliases: ["super troopers"],
+  },
+
+  "harold-kumar": {
+    slug: "harold-kumar",
+    name: "Harold & Kumar",
+    tagline: "White Castle → Guantanamo → Navidad",
+    collectionIds: [],
+    extraMovieIds: [11282, 13335, 55465],
+    chronologicalOrder: [11282, 13335, 55465],
+    recommendationSeedId: 11282,
+    searchAliases: ["harold and kumar"],
+  },
+
+  "jay-silent-bob": {
+    slug: "jay-silent-bob",
+    name: "Jay y Bob el Silencioso",
+    tagline: "Kevin Smith / View Askew",
+    collectionIds: [726870],
+    excludeMovieIds: [1311941],
+    chronologicalOrder: [2294, 179267, 440762],
+    recommendationSeedId: 2294,
+    searchAliases: ["jay and silent bob", "clerks"],
+  },
+
+  "beverly-hills-cop": {
+    slug: "beverly-hills-cop",
+    name: "Superdetective en Hollywood",
+    tagline: "Axel Foley hasta Axel F.",
+    collectionIds: [85861],
+    chronologicalOrder: [90, 96, 306, 280180],
+    recommendationSeedId: 90,
+    searchAliases: ["beverly hills cop", "axel foley"],
+  },
+
+  "bad-boys": {
+    slug: "bad-boys",
+    name: "Bad Boys",
+    tagline: "Marcus & Mike, las cuatro",
+    collectionIds: [14890],
+    chronologicalOrder: [9737, 8961, 38700, 573435],
+    recommendationSeedId: 9737,
+    searchAliases: ["dos policias rebeldes", "bad boys"],
+  },
+
+  "jump-street": {
+    slug: "jump-street",
+    name: "Infiltrados en clase",
+    tagline: "21 → 22 Jump Street",
+    collectionIds: [212562],
+    excludeMovieIds: [1712303],
+    chronologicalOrder: [64688, 187017],
+    recommendationSeedId: 64688,
+    searchAliases: ["21 jump street", "22 jump street"],
+  },
+
+  zoolander: {
+    slug: "zoolander",
+    name: "Zoolander",
+    tagline: "Really, really ridiculously good looking",
+    collectionIds: [352789],
+    chronologicalOrder: [9398, 329833],
+    recommendationSeedId: 9398,
+  },
+
+  anchorman: {
+    slug: "anchorman",
+    name: "Anchorman",
+    tagline: "Ron Burgundy",
+    collectionIds: [93791],
+    chronologicalOrder: [8699, 109443],
+    recommendationSeedId: 8699,
+    searchAliases: ["ron burgundy", "reportero"],
+  },
+
+  "big-momma": {
+    slug: "big-momma",
+    name: "Esta abuela es un peligro",
+    tagline: "Big Momma's House",
+    collectionIds: [44979],
+    chronologicalOrder: [9600, 11565, 38322],
+    recommendationSeedId: 9600,
+    searchAliases: ["big momma", "abuela"],
+  },
+
+  "nutty-professor": {
+    slug: "nutty-professor",
+    name: "El profesor chiflado",
+    tagline: "Eddie Murphy / Klump",
+    collectionIds: [86028],
+    chronologicalOrder: [9327, 12107],
+    recommendationSeedId: 9327,
+    searchAliases: ["nutty professor"],
+  },
+
+  "pink-panther": {
+    slug: "pink-panther",
+    name: "La pantera rosa",
+    tagline: "Clouseau clásico + Steve Martin",
+    collectionIds: [937, 130440],
+    chronologicalOrder: [
+      936, 1594, 11573, 11843, 12268, 6081, 9699, 36576, 46828, 12096, 15159,
+    ],
+    recommendationSeedId: 936,
+    searchAliases: ["pink panther", "clouseau"],
+  },
+
+  "mr-bean": {
+    slug: "mr-bean",
+    name: "Mr. Bean",
+    tagline: "Bean + Vacaciones",
+    collectionIds: [103372],
+    chronologicalOrder: [1281, 1268],
+    recommendationSeedId: 1281,
+    searchAliases: ["mr bean", "bean"],
+  },
+
+  "johnny-english": {
+    slug: "johnny-english",
+    name: "Johnny English",
+    tagline: "Rowan Atkinson, espía",
+    collectionIds: [86117],
+    excludeMovieIds: [1241132],
+    chronologicalOrder: [9486, 58233, 463272],
+    recommendationSeedId: 9486,
+  },
+
+  "bridget-jones": {
+    slug: "bridget-jones",
+    name: "Bridget Jones",
+    tagline: "Diario → Baby → Loca por él",
+    collectionIds: [8936],
+    chronologicalOrder: [634, 9801, 95610, 1272149],
+    recommendationSeedId: 634,
+    searchAliases: ["bridget"],
+  },
+
+  "sex-and-the-city": {
+    slug: "sex-and-the-city",
+    name: "Sexo en Nueva York",
+    tagline: "Las dos películas",
+    collectionIds: [50457],
+    chronologicalOrder: [4564, 37786],
+    recommendationSeedId: 4564,
+    searchAliases: ["sex and the city", "satc"],
+  },
+
+  "pitch-perfect": {
+    slug: "pitch-perfect",
+    name: "Dando la nota",
+    tagline: "Pitch Perfect 1–3",
+    collectionIds: [306031],
+    chronologicalOrder: [114150, 254470, 353616],
+    recommendationSeedId: 114150,
+    searchAliases: ["pitch perfect", "a cappella"],
+  },
+
+  "sister-act": {
+    slug: "sister-act",
+    name: "Sister Act",
+    tagline: "Una monja de cuidado (+ 2)",
+    collectionIds: [103573],
+    excludeMovieIds: [1563146],
+    chronologicalOrder: [2005, 6279],
+    recommendationSeedId: 2005,
+    searchAliases: ["sister act", "monja"],
+  },
+
+  "mira-quien-habla": {
+    slug: "mira-quien-habla",
+    name: "Mira quién habla",
+    tagline: "Trilogía del bebé parlante",
+    collectionIds: [9521],
+    chronologicalOrder: [9494, 9356, 11982],
+    recommendationSeedId: 9494,
+    searchAliases: ["look whos talking"],
+  },
+
+  "kindergarten-cop": {
+    slug: "kindergarten-cop",
+    name: "Poli de guardería",
+    tagline: "Schwarzenegger en el jardín",
+    collectionIds: [397444],
+    chronologicalOrder: [951, 383121],
+    recommendationSeedId: 951,
+    searchAliases: ["kindergarten cop"],
+  },
+
+  "national-lampoon": {
+    slug: "national-lampoon",
+    name: "Vacaciones (National Lampoon)",
+    tagline: "Griswold clásicos + remake 2015",
+    collectionIds: [108693],
+    extraMovieIds: [296099],
+    chronologicalOrder: [11153, 11418, 5825, 11419, 296099],
+    recommendationSeedId: 11153,
+    searchAliases: ["vacation", "griswold", "national lampoon"],
+  },
+
+  "van-wilder": {
+    slug: "van-wilder",
+    name: "Van Wilder",
+    tagline: "Animal Party y compañía",
+    collectionIds: [43220],
+    chronologicalOrder: [11452, 10032, 19824],
+    recommendationSeedId: 11452,
+  },
+
+  "blues-brothers": {
+    slug: "blues-brothers",
+    name: "The Blues Brothers",
+    tagline: "We're on a mission from God",
+    collectionIds: [112636],
+    chronologicalOrder: [525, 11568],
+    recommendationSeedId: 525,
+    searchAliases: ["blues brothers", "granujas"],
+  },
+
+  "coming-to-america": {
+    slug: "coming-to-america",
+    name: "El príncipe de Zamunda",
+    tagline: "Coming to America + secuela",
+    collectionIds: [647077],
+    chronologicalOrder: [9602, 484718],
+    recommendationSeedId: 9602,
+    searchAliases: ["coming to america", "zamunda"],
+  },
+
+  "night-at-the-museum": {
+    slug: "night-at-the-museum",
+    name: "Noche en el museo",
+    tagline: "Trilogía Ben Stiller",
+    collectionIds: [85943],
+    chronologicalOrder: [1593, 18360, 181533],
+    recommendationSeedId: 1593,
+    searchAliases: ["night at the museum"],
+  },
+
+  "ride-along": {
+    slug: "ride-along",
+    name: "¿Vaya patrulla!",
+    tagline: "Ride Along 1 y 2",
+    collectionIds: [376650],
+    chronologicalOrder: [168530, 323675],
+    recommendationSeedId: 168530,
+    searchAliases: ["ride along", "infiltrados en miami"],
+  },
+
+  "horrible-bosses": {
+    slug: "horrible-bosses",
+    name: "Cómo acabar con tu jefe",
+    tagline: "1 y 2",
+    collectionIds: [280588],
+    chronologicalOrder: [51540, 227159],
+    recommendationSeedId: 51540,
+    searchAliases: ["horrible bosses"],
+  },
+
+  neighbors: {
+    slug: "neighbors",
+    name: "Malditos vecinos",
+    tagline: "Neighbors 1 y 2",
+    collectionIds: [400700],
+    chronologicalOrder: [195589, 325133],
+    recommendationSeedId: 195589,
+    searchAliases: ["neighbors", "malditos vecinos"],
+  },
+
+  "paul-blart": {
+    slug: "paul-blart",
+    name: "Superpoli de centro comercial",
+    tagline: "Paul Blart Mall Cop",
+    collectionIds: [328372],
+    chronologicalOrder: [14560, 256961],
+    recommendationSeedId: 14560,
+    searchAliases: ["paul blart", "mall cop"],
+  },
+
+  "daddys-home": {
+    slug: "daddys-home",
+    name: "Padres por desigual",
+    tagline: "Daddy's Home 1 y 2",
+    collectionIds: [473971],
+    chronologicalOrder: [274167, 419680],
+    recommendationSeedId: 274167,
+    searchAliases: ["daddys home", "padres por desigual"],
+  },
+
+  "bill-and-ted": {
+    slug: "bill-and-ted",
+    name: "Bill & Ted",
+    tagline: "Excelente aventura → Face the Music",
+    collectionIds: [91746],
+    chronologicalOrder: [1648, 1649, 501979],
+    recommendationSeedId: 1648,
+    searchAliases: ["bill and ted", "bill y ted"],
+  },
+
+  "despicable-me": {
+    slug: "despicable-me",
+    name: "Gru / Minions",
+    tagline: "Gru 1–4 + Minions",
+    collectionIds: [86066, 544669],
+    excludeMovieIds: [1315772],
+    chronologicalOrder: [20352, 93456, 211672, 324852, 438148, 519182],
+    recommendationSeedId: 20352,
+    searchAliases: ["gru", "minions", "despicable me"],
+  },
+
+  alvin: {
+    slug: "alvin",
+    name: "Alvin y las ardillas",
+    tagline: "Las cuatro live-action",
+    collectionIds: [167613],
+    chronologicalOrder: [6477, 23398, 55301, 258509],
+    recommendationSeedId: 6477,
+    searchAliases: ["chipmunks", "ardillas"],
+  },
+
+  pitufos: {
+    slug: "pitufos",
+    name: "Los pitufos",
+    tagline: "Live-action 2011–13",
+    collectionIds: [134897],
+    chronologicalOrder: [41513, 77931],
+    recommendationSeedId: 41513,
+    searchAliases: ["smurfs", "pitufos"],
+  },
+
+  critters: {
+    slug: "critters",
+    name: "Critters",
+    tagline: "Los gremlins… del otro bando",
+    collectionIds: [10893],
+    chronologicalOrder: [3980, 10127, 12702, 12525, 597856],
+    recommendationSeedId: 3980,
+  },
+
+  "familia-addams": {
+    slug: "familia-addams",
+    name: "La familia Addams",
+    tagline: "Live-action 90s + animadas",
+    collectionIds: [11716, 750822],
+    chronologicalOrder: [2907, 2758, 481084, 639721],
+    recommendationSeedId: 2907,
+    searchAliases: ["addams", "addams family"],
+  },
+
+  gladiator: {
+    slug: "gladiator",
+    name: "Gladiator",
+    tagline: "Are you not entertained?",
+    collectionIds: [1069584],
+    excludeMovieIds: [1359289], // Gladiator III
+    chronologicalOrder: [98, 558449],
+    recommendationSeedId: 98,
+  },
+
+  "jack-reacher": {
+    slug: "jack-reacher",
+    name: "Jack Reacher",
+    tagline: "Tom Cruise, las dos",
+    collectionIds: [403374],
+    chronologicalOrder: [75780, 343611],
+    recommendationSeedId: 75780,
+    searchAliases: ["reacher"],
+  },
+
+  hostel: {
+    slug: "hostel",
+    name: "Hostel",
+    tagline: "Turismo extremo, Roth style",
+    collectionIds: [86578],
+    chronologicalOrder: [1690, 1691, 71670],
+    recommendationSeedId: 1690,
+  },
+
+  "the-crow": {
+    slug: "the-crow",
+    name: "El cuervo",
+    tagline: "Clásica + secuelas + remake 2024",
+    collectionIds: [9436],
+    extraMovieIds: [957452],
+    chronologicalOrder: [9495, 10546, 9456, 16456, 957452],
+    recommendationSeedId: 9495,
+    searchAliases: ["crow", "el cuervo"],
+  },
+
+  "sin-city": {
+    slug: "sin-city",
+    name: "Sin City",
+    tagline: "Miller / Rodriguez",
+    collectionIds: [135179],
+    chronologicalOrder: [187, 189],
+    recommendationSeedId: 187,
+  },
+
+  "300": {
+    slug: "300",
+    name: "300",
+    tagline: "Origen del Imperio → las Termópilas",
+    collectionIds: [125570],
+    chronologicalOrder: [53182, 1271],
+    recommendationSeedId: 1271,
+  },
+
+  watchmen: {
+    slug: "watchmen",
+    name: "Watchmen",
+    tagline: "Película 2009 + capítulos animados",
+    collectionIds: [1304326],
+    extraMovieIds: [13183],
+    chronologicalOrder: [13183, 1155058, 1299652],
+    recommendationSeedId: 13183,
+  },
+
+  "fantastic-four": {
+    slug: "fantastic-four",
+    name: "Los 4 Fantásticos (Fox)",
+    tagline: "Era Fox (sin MCU)",
+    collectionIds: [9744],
+    extraMovieIds: [166424],
+    chronologicalOrder: [9738, 1979, 166424],
+    recommendationSeedId: 9738,
+    searchAliases: ["fantastic four", "4 fantasticos", "cuarteto"],
+  },
+
+  "power-rangers": {
+    slug: "power-rangers",
+    name: "Power Rangers",
+    tagline: "90s + reboot 2017",
+    collectionIds: [708816],
+    extraMovieIds: [305470],
+    chronologicalOrder: [9070, 6499, 305470],
+    recommendationSeedId: 9070,
+    searchAliases: ["mighty morphin"],
+  },
+
+  pokemon: {
+    slug: "pokemon",
+    name: "Pokémon",
+    tagline: "Películas Gen 1 → XY (selección curada)",
+    collectionIds: [34055, 661025, 661028, 661029],
+    excludeMovieIds: [88557], // Victini White (alt de Black)
+    chronologicalOrder: [
+      10228, 12599, 10991, 12600, 33875, 36218, 34065, 34067, 16808, 115223,
+      150213, 227679, 303903, 350499, 382190,
+    ],
+    recommendationSeedId: 10228,
+    searchAliases: ["pokémon", "poke"],
+  },
+
+  "human-centipede": {
+    slug: "human-centipede",
+    name: "El ciempiés humano",
+    tagline: "Trilogía de culto… digamos",
+    collectionIds: [96671],
+    chronologicalOrder: [37169, 74997, 94365],
+    recommendationSeedId: 37169,
+    searchAliases: ["human centipede", "ciempies"],
+  },
+
+  "parodias-2000": {
+    slug: "parodias-2000",
+    name: "Parodias 2000s",
+    tagline: "Epic / Disaster / Casi 300 / Date / Superhero Movie",
+    collectionIds: [],
+    extraMovieIds: [9760, 13805, 7278, 10073, 11918],
+    chronologicalOrder: [9760, 10073, 7278, 11918, 13805],
+    recommendationSeedId: 9760,
+    searchAliases: ["epic movie", "disaster movie", "meet the spartans"],
   },
 
   // ——— Bizarro / camp ———

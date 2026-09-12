@@ -146,14 +146,18 @@ export function SearchBar({
     >
       <label
         className={cn(
-          "bg-cinema-surface border-cinema-border focus-within:border-cinema-muted flex items-center gap-2 rounded-full border",
-          size === "lg" ? "px-5 py-3.5 shadow-lg shadow-black/30" : "px-4 py-2.5",
+          "bg-cinema-surface flex items-center gap-2 rounded-full border transition-[border-color,box-shadow]",
+          size === "lg"
+            ? "border-cinema-accent/35 focus-within:border-cinema-accent px-5 py-3.5 shadow-[0_0_0_1px_rgba(245,181,68,0.08),0_12px_40px_rgba(0,0,0,0.45)] focus-within:shadow-[0_0_0_1px_rgba(245,181,68,0.35),0_12px_40px_rgba(0,0,0,0.45)]"
+            : "border-cinema-border focus-within:border-cinema-muted px-4 py-2.5",
         )}
       >
         <SearchIcon
           className={cn(
-            "text-cinema-muted shrink-0",
-            size === "lg" ? "size-5" : "size-4",
+            "shrink-0",
+            size === "lg"
+              ? "text-cinema-accent/80 size-5"
+              : "text-cinema-muted size-4",
           )}
         />
         <input
@@ -205,7 +209,7 @@ export function SearchBar({
         <ul
           id={listId}
           role="listbox"
-          className="bg-cinema-surface border-cinema-border absolute inset-x-0 top-[calc(100%+0.5rem)] z-30 max-h-80 overflow-y-auto rounded-2xl border py-1 shadow-xl"
+          className="bg-cinema-surface border-cinema-border absolute inset-x-0 top-[calc(100%+0.5rem)] z-30 max-h-80 overflow-y-auto rounded-2xl border py-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.55)]"
         >
           {showSkeleton && (
             <>

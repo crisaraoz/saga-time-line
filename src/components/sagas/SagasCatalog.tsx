@@ -1,19 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
   FRANCHISE_CATEGORIES,
   FRANCHISE_CATEGORY_LABELS,
-  type CuratedFranchise,
   type FranchiseCategory,
 } from "@/data/curated-franchises";
 import { ChevronDownIcon } from "@/components/ui/icons";
+import type { CatalogItem } from "@/lib/services/catalog";
+import { posterUrl } from "@/lib/tmdb/images";
 import { cn } from "@/lib/utils/cn";
-
-type CatalogItem = Pick<CuratedFranchise, "slug" | "name" | "tagline"> & {
-  category: FranchiseCategory;
-};
 
 export function SagasCatalog({ items }: { items: CatalogItem[] }) {
   const [category, setCategory] = useState<FranchiseCategory | "">("");
@@ -76,29 +74,55 @@ export function SagasCatalog({ items }: { items: CatalogItem[] }) {
           No hay sagas en esta categoría.
         </p>
       ) : (
-        <ul className="border-cinema-border mt-3 divide-y divide-cinema-border overflow-hidden rounded-2xl border">
-          {filtered.map((franchise) => (
-            <li key={franchise.slug}>
-              <Link
-                href={`/f/${franchise.slug}`}
-                className="bg-cinema-surface hover:bg-cinema-elevated flex items-center gap-3 px-4 py-3.5 transition-colors active:opacity-80"
-              >
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold lg:text-base">
-                    {franchise.name}
-                  </p>
-                  {franchise.tagline && (
-                    <p className="text-cinema-muted mt-0.5 truncate text-xs lg:text-sm">
-                      {franchise.tagline}
+        <ul className="mt-4 grid grid-cols-1 gap-2 sm:gap-2.5 lg:grid-cols-2">
+          {filtered.map((franchise) => {
+            const src = posterUrl(franchise.posterPath, "w185");
+            return (
+              <li key={franchise.slug}>
+                <Link
+                  href={`/f/${franchise.slug}`}
+                  className="border-cinema-border bg-cinema-surface hover:border-cinema-accent/35 hover:bg-cinema-elevated group flex items-center gap-3 rounded-2xl border p-2.5 transition-[border-color,background-color,transform] active:scale-[0.99] sm:gap-3.5 sm:p-3"
+                >
+                  <div className="bg-cinema-elevated relative aspect-[2/3] w-12 shrink-0 overflow-hidden rounded-lg sm:w-14">
+                    {src ? (
+                      <Image
+                        src={src}
+                        alt=""
+                        fill
+                        sizes="56px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                      />
+                    ) : (
+                      <span className="text-cinema-muted flex size-full items-center justify-center text-[9px]">
+                        —
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <p className="group-hover:text-cinema-accent truncate text-sm font-semibold transition-colors sm:text-[15px]">
+                      {franchise.name}
                     </p>
-                  )}
-                </div>
-                <span aria-hidden className="text-cinema-muted text-lg">
-                  ›
-                </span>
-              </Link>
-            </li>
-          ))}
+                    {franchise.tagline && (
+                      <p className="text-cinema-muted mt-0.5 line-clamp-2 text-[11px] leading-snug sm:text-xs">
+                        {franchise.tagline}
+                      </p>
+                    )}
+                    <span className="text-cinema-muted border-cinema-border/80 mt-1.5 inline-flex rounded-full border px-2 py-0.5 text-[10px]">
+                      {FRANCHISE_CATEGORY_LABELS[franchise.category]}
+                    </span>
+                  </div>
+
+                  <span
+                    aria-hidden
+                    className="text-cinema-muted group-hover:text-cinema-accent pr-1 text-lg transition-colors"
+                  >
+                    ›
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
