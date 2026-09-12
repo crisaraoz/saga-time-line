@@ -10,7 +10,7 @@ interface TimelineProps {
 }
 
 export function Timeline({ franchise, loreCaps }: TimelineProps) {
-  const { watchedIds, toggle } = useWatchProgressContext();
+  const { watchedIds, toggle, density } = useWatchProgressContext();
 
   const titles = [...franchise.titles].sort(
     (a, b) => a.chronologicalOrder - b.chronologicalOrder,
@@ -24,6 +24,7 @@ export function Timeline({ franchise, loreCaps }: TimelineProps) {
           title={title}
           watched={watchedIds.has(title.id)}
           isLast={index === titles.length - 1}
+          density={density}
           country={franchise.country}
           loreCap={loreCaps[title.id]}
           onToggleWatched={toggle}

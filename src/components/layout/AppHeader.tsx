@@ -1,9 +1,64 @@
 import Link from "next/link";
 import { SearchBar } from "@/components/search/SearchBar";
+import { GitHubIcon, InstagramIcon } from "@/components/ui/icons";
+import { cn } from "@/lib/utils/cn";
 
-export function AppHeader({ showSearch = true }: { showSearch?: boolean }) {
+const GITHUB_URL = "https://github.com/crisaraoz";
+const INSTAGRAM_URL = "https://www.instagram.com/cris.araozz/";
+const LINKEDIN_URL = "https://www.linkedin.com/in/cris-araoz/";
+
+function SocialLinks({ className }: { className?: string }) {
   return (
-    <header className="bg-cinema-bg/85 border-cinema-border sticky top-0 z-20 border-b backdrop-blur">
+    <div className={cn("flex items-center gap-1 sm:gap-2", className)}>
+      <a
+        href={LINKEDIN_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-cinema-muted hover:text-cinema-accent text-[10px] tracking-wide transition-colors duration-200 sm:text-[11px]"
+      >
+        Developed by <span className="font-medium">CrisAraoz</span>
+      </a>
+      <a
+        href={GITHUB_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub de Cris"
+        className="text-cinema-muted hover:text-white inline-flex size-8 items-center justify-center transition-colors duration-200"
+      >
+        <GitHubIcon className="size-[18px]" />
+      </a>
+      <a
+        href={INSTAGRAM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram de Cris"
+        className="text-cinema-muted hover:text-[#E4405F] inline-flex size-8 items-center justify-center transition-colors duration-200"
+      >
+        <InstagramIcon className="size-[18px]" />
+      </a>
+    </div>
+  );
+}
+
+export function AppHeader({
+  showSearch = true,
+  variant = "default",
+}: {
+  showSearch?: boolean;
+  /** En home el logo grande vive en el hero: el header se vuelve más liviano. */
+  variant?: "default" | "home";
+}) {
+  const isHome = variant === "home";
+
+  return (
+    <header
+      className={cn(
+        "sticky top-0 z-20",
+        isHome
+          ? "bg-cinema-bg/40 border-transparent"
+          : "bg-cinema-bg border-cinema-border border-b",
+      )}
+    >
       <div
         className={
           showSearch
@@ -12,19 +67,21 @@ export function AppHeader({ showSearch = true }: { showSearch?: boolean }) {
         }
       >
         <div className="flex w-full items-center justify-between lg:w-auto lg:shrink-0">
-          <Link href="/" className="text-lg font-semibold tracking-tight">
+          <Link
+            href="/"
+            className={cn(
+              "font-semibold tracking-tight",
+              isHome ? "text-sm opacity-70" : "text-lg",
+            )}
+          >
             Saga<span className="text-cinema-accent">Flow</span>
           </Link>
-          <span className="border-cinema-border text-cinema-muted rounded-full border px-2 py-0.5 text-[11px] lg:hidden">
-            AR
-          </span>
+          <SocialLinks className="lg:hidden" />
         </div>
 
         {showSearch && <SearchBar />}
 
-        <span className="border-cinema-border text-cinema-muted ml-auto hidden rounded-full border px-2.5 py-1 text-xs lg:block">
-          AR
-        </span>
+        <SocialLinks className="ml-auto hidden lg:flex" />
       </div>
     </header>
   );

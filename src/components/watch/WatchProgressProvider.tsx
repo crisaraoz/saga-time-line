@@ -1,15 +1,29 @@
 "use client";
 
-import { createContext, useContext, useMemo, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { useWatchProgress } from "@/hooks/useWatchProgress";
+
+export type TimelineDensity = "list" | "compact";
 
 type WatchProgress = ReturnType<typeof useWatchProgress>;
 
-const WatchProgressContext = createContext<WatchProgress | null>(null);
+type FranchiseUiContextValue = WatchProgress & {
+  density: TimelineDensity;
+  setDensity: (density: TimelineDensity) => void;
+};
+
+const FranchiseUiContext = createContext<FranchiseUiContextValue | null>(null);
 
 /**
- * El panel de progreso y el timeline viven en columnas distintas del layout de
- * escritorio, así que comparten el estado por contexto en vez de por props.
+ * Progreso de vistas + densidad del timeline. Viven en columnas distintas en
+ * desktop, así que comparten estado por contexto.
  */
 export function WatchProgressProvider({
   slug,
@@ -19,20 +33,26 @@ export function WatchProgressProvider({
   children: ReactNode;
 }) {
   const { watchedIds, toggle, reset } = useWatchProgress(slug);
+  const [density, setDensityState] = useState<TimelineDensity>("list");
+
+  const setDensity = useCallback((next: TimelineDensity) => {
+    setDensityState(next);
+  }, []);
+
   const value = useMemo(
-    () => ({ watchedIds, toggle, reset }),
-    [watchedIds, toggle, reset],
+    () => ({ watchedIds, toggle, reset, density, setDensity }),
+    [watchedIds, toggle, reset, density, setDensity],
   );
 
   return (
-    <WatchProgressContext.Provider value={value}>
+    <FranchiseUiContext.Provider value={value}>
       {children}
-    </WatchProgressContext.Provider>
+    </FranchiseUiContext.Provider>
   );
 }
 
-export function useWatchProgressContext(): WatchProgress {
-  const context = useContext(WatchProgressContext);
+export function useWatchProgressContext(): FranchiseUiContextValue {
+  const context = useContext(FranchiseUiContext);
   if (!context) {
     throw new Error("useWatchProgressContext requiere un WatchProgressProvider");
   }

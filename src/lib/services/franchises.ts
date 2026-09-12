@@ -47,33 +47,38 @@ function sortMovieIds(
   collections: TmdbCollection[],
   curated: CuratedFranchise | undefined,
 ): number[] {
+  const today = new Date().toISOString().slice(0, 10);
   const parts = collections
     .flatMap((collection) => collection.parts)
-    .filter((part) => part.release_date);
+    .filter((part) => part.release_date && part.release_date <= today);
 
-  const byReleaseDate = [...new Map(parts.map((p) => [p.id, p])).values()].sort((a, b) =>
-    a.release_date.localeCompare(b.release_date),
+  const byReleaseDate = [
+    ...new Map(parts.map((part) => [part.id, part])).values(),
+  ].sort((a, b) => a.release_date.localeCompare(b.release_date));
+
+  const fromCollections = byReleaseDate.map((part) => part.id);
+  const extras = curated?.extraMovieIds ?? [];
+  const excluded = new Set(curated?.excludeMovieIds ?? []);
+  const available = [...new Set([...fromCollections, ...extras])].filter(
+    (id) => !excluded.has(id),
   );
 
   if (!curated?.chronologicalOrder) {
-    return byReleaseDate.map((part) => part.id);
+    const known = new Set(fromCollections);
+    return [...fromCollections, ...extras.filter((id) => !known.has(id))];
   }
 
-  const ordered = curated.chronologicalOrder.filter((id) =>
-    byReleaseDate.some((part) => part.id === id),
-  );
-  const extras = byReleaseDate
-    .map((part) => part.id)
-    .filter((id) => !ordered.includes(id));
+  const availableSet = new Set(available);
+  const ordered = curated.chronologicalOrder.filter((id) => availableSet.has(id));
+  const orderedSet = new Set(ordered);
+  const rest = available.filter((id) => !orderedSet.has(id));
 
-  return [...ordered, ...extras];
+  return [...ordered, ...rest];
 }
 
 async function buildFranchiseFromTmdb(slug: string): Promise<Franchise | null> {
-  const curated = CURATED_FRANCHISES[slug];
+  const curated = resolveCurated(slug);
   const collections = await resolveCollections(slug, curated);
-  if (collections.length === 0) return null;
-
   const movieIds = sortMovieIds(collections, curated);
   if (movieIds.length === 0) return null;
 
@@ -95,17 +100,41 @@ async function buildFranchiseFromTmdb(slug: string): Promise<Franchise | null> {
     }),
   );
 
-  const primary = collections[collections.length - 1];
+  const primary = collections[0];
+  const seedDetails = details[0];
 
   return {
-    id: `tmdb_collection_${collections.map((c) => c.id).join("_")}`,
-    slug,
-    name: curated?.name ?? primary.name,
+    id:
+      collections.length > 0
+        ? `tmdb_collection_${collections.map((c) => c.id).join("_")}`
+        : `tmdb_curated_${curated?.slug ?? slug}`,
+    slug: curated?.slug ?? slug,
+    name: curated?.name ?? primary?.name ?? seedDetails.title,
     tagline: curated?.tagline ?? null,
-    backdropPath: primary.backdrop_path,
+    backdropPath: primary?.backdrop_path ?? seedDetails.backdrop_path,
     country,
     titles,
   };
+}
+
+/** Resuelve curada por slug (clave o campo slug) o por id de colección TMDB. */
+function resolveCurated(slug: string): CuratedFranchise | undefined {
+  const direct = CURATED_FRANCHISES[slug];
+  if (direct) return direct;
+
+  const bySlugField = Object.values(CURATED_FRANCHISES).find(
+    (franchise) => franchise.slug === slug,
+  );
+  if (bySlugField) return bySlugField;
+
+  if (/^\d+$/.test(slug)) {
+    const collectionId = Number(slug);
+    return Object.values(CURATED_FRANCHISES).find((franchise) =>
+      franchise.collectionIds.includes(collectionId),
+    );
+  }
+
+  return undefined;
 }
 
 export function getFranchiseBySlug(slug: string) {
@@ -132,7 +161,7 @@ export function getRecommendations(slug: string) {
 
     const franchise = await getFranchiseBySlug(slug);
     const seedId =
-      CURATED_FRANCHISES[slug]?.recommendationSeedId ??
+      resolveCurated(slug)?.recommendationSeedId ??
       franchise.value?.titles.at(-1)?.tmdbId;
     if (!seedId) return [];
 
@@ -168,12 +197,16 @@ export interface FranchiseSearchResult {
 
 function curatedMatches(query: string): FranchiseSearchResult[] {
   const needle = query.toLowerCase().trim();
+  const slugNeedle = needle.replace(/\s+/g, "-");
   return Object.values(CURATED_FRANCHISES)
-    .filter(
-      (franchise) =>
-        franchise.name.toLowerCase().includes(needle) ||
-        franchise.slug.includes(needle.replace(/\s+/g, "-")),
-    )
+    .filter((franchise) => {
+      if (franchise.name.toLowerCase().includes(needle)) return true;
+      if (franchise.slug.includes(slugNeedle)) return true;
+      if (franchise.tagline?.toLowerCase().includes(needle)) return true;
+      return franchise.searchAliases?.some((alias) =>
+        alias.toLowerCase().includes(needle),
+      );
+    })
     .map((franchise) => ({
       slug: franchise.slug,
       name: franchise.name,
@@ -181,12 +214,10 @@ function curatedMatches(query: string): FranchiseSearchResult[] {
     }));
 }
 
-/** Si el id de colección pertenece a una franquicia curada, usamos su slug. */
-function resolveSearchSlug(collectionId: number): string {
-  const curated = Object.values(CURATED_FRANCHISES).find((franchise) =>
+function curatedByCollectionId(collectionId: number): CuratedFranchise | undefined {
+  return Object.values(CURATED_FRANCHISES).find((franchise) =>
     franchise.collectionIds.includes(collectionId),
   );
-  return curated?.slug ?? String(collectionId);
 }
 
 export function searchFranchises(query: string) {
@@ -200,11 +231,14 @@ export function searchFranchises(query: string) {
       if (!isTmdbConfigured()) return curated;
 
       const { results } = await searchCollections(query);
-      const fromTmdb = results.slice(0, 10).map((collection) => ({
-        slug: resolveSearchSlug(collection.id),
-        name: collection.name,
-        posterPath: collection.poster_path,
-      }));
+      const fromTmdb = results.slice(0, 10).map((collection) => {
+        const match = curatedByCollectionId(collection.id);
+        return {
+          slug: match?.slug ?? String(collection.id),
+          name: match?.name ?? collection.name,
+          posterPath: collection.poster_path,
+        };
+      });
 
       // Curadas primero; sin duplicar por slug.
       const seen = new Set(curated.map((item) => item.slug));

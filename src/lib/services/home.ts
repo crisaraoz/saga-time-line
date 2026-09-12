@@ -1,4 +1,5 @@
 import {
+  getCollection,
   getPopularMovies,
   getTrendingMovies,
   isTmdbConfigured,
@@ -11,7 +12,20 @@ export interface HomePoster {
   posterPath: string;
 }
 
+export interface HomeShortcut {
+  slug: string;
+  name: string;
+  posterPath: string | null;
+}
+
 const POSTERS_TTL = 1000 * 60 * 60 * 6; // 6 h
+
+const HOME_SHORTCUT_DEFS = [
+  { slug: "el-senor-de-los-anillos", name: "Tierra Media", collectionId: 119 },
+  { slug: "harry-potter", name: "Harry Potter", collectionId: 1241 },
+  { slug: "star-wars", name: "Star Wars", collectionId: 10 },
+  { slug: "mcu", name: "MCU", collectionId: 86311 },
+] as const;
 
 /** Mezcla estable por día: “aleatorio” sin cambiar en cada request. */
 function shuffleForToday<T>(items: T[]): T[] {
@@ -52,7 +66,6 @@ export function getHomePosters() {
           })),
       );
 
-      // Deduplicar por id manteniendo el orden mezclado.
       const seen = new Set<number>();
       const unique = posters.filter((poster) => {
         if (seen.has(poster.tmdbId)) return false;
@@ -67,4 +80,27 @@ export function getHomePosters() {
       };
     },
   );
+}
+
+/** Atajos de la home con póster de la colección TMDB. */
+export function getHomeShortcuts() {
+  return withCache<HomeShortcut[]>("home:shortcuts", POSTERS_TTL, async () => {
+    if (!isTmdbConfigured()) {
+      return HOME_SHORTCUT_DEFS.map((item) => ({
+        slug: item.slug,
+        name: item.name,
+        posterPath: null,
+      }));
+    }
+
+    const collections = await Promise.all(
+      HOME_SHORTCUT_DEFS.map((item) => getCollection(item.collectionId)),
+    );
+
+    return HOME_SHORTCUT_DEFS.map((item, index) => ({
+      slug: item.slug,
+      name: item.name,
+      posterPath: collections[index]?.poster_path ?? null,
+    }));
+  });
 }

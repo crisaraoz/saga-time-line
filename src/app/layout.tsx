@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="bg-cinema-bg text-cinema-text flex min-h-full flex-col font-sans">
+      <body className="bg-cinema-bg text-cinema-text flex min-h-full flex-col overflow-x-hidden font-sans">
         {children}
       </body>
     </html>

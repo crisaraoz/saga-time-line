@@ -44,7 +44,7 @@ export default async function TitlePage({ params }: TitlePageProps) {
   const recommendations = await recommendationsForMovie(tmdbId);
 
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col overflow-x-hidden">
       <AppHeader />
       <FranchiseView
         franchise={value.franchise}
